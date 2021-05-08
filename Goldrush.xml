@@ -981,7 +981,7 @@ registerAnonymousEventHandler('gmcp.Char.Items.List','goldrush:depositAll')</scr
 				<script>goldrush.header = {['Content-type']='application/json'}
 goldrush.hook = 'https://discord.com/api/webhooks/840343065603997747/lULCTKj3zTRybhtB8oxEfPiXGBXznkokomB9jwAe-rDzwi8akLlS977ebeMSL2k393Tm'
 goldrush.hook = 'https://discord.com/api/webhooks/840373405123215441/1pcxhwWO85VxBI69pUOsBOoyR9fy8ZTMxquJTvNrUQy4F7Y60zWTPC1tXf-8e2_c_OBq'
-goldrush.submit = false
+goldrush.submit = true
 
 function goldrush:pushLode(id,commodity,size)
   local room = getRoomName(id)

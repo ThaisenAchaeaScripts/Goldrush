@@ -5,7 +5,7 @@ Achaea Prospecting script for Mudlet
 ## Installation Instructions
 
 ### Manual Installation
-1. Download this repository as a ZIP by clicking the "Clone or download" button above
+1. Download this repository as a ZIP by clicking the "Code" button above
 2. Unpack the ZIP somewhere...anywhere!
 3. Open the mudlet packackage manager
 4. Navigate to and install the "Goldrush.xml" script...wherever you put it...

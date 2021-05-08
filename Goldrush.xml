@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<TriggerPackage>
+		<TriggerGroup isActive="yes" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Goldrush</name>
+			<script></script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList />
+			<regexCodePropertyList />
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_lode_taken</name>
+				<script>goldrush.currentlode = {
+	roomid=gmcp.Room.Info.num,
+	stronghold=goldrush.currentrun.strongholdlookup[gmcp.Room.Info.num],
+	commodity=matches[3],
+	minesize=matches[2],
+	lodesize=matches[4],
+	progress=matches[5]
+}
+
+local id = 0
+for k, v in pairs(gmcp.Char.Items.List.items) do
+	if v.name == 'a small wooden sign' then
+		id = v.id
+	end
+end
+send('read '..id)</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^There is an? (small|medium|large) (.+) mine here on a (\w+) lode that you\'d guess is approximately (\d+)% mined out\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_lode_taken_sign</name>
+				<script>goldrush.currentlode.owner = matches[2]
+goldrush:completeProspecting()</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^This .+ mine is owned by (\w+)\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_lode_available</name>
+				<script>goldrush.currentlode = {
+	roomid=gmcp.Room.Info.num,
+	stronghold=goldrush.currentrun.strongholdlookup[gmcp.Room.Info.num],
+	owner='None',
+	commodity=matches[3],
+	minesize='None',
+	lodesize=matches[2],
+	progress=0
+}
+
+if goldrush.skip or goldrush.speed then
+  goldrush.skip = false
+  goldrush:completeProspecting()
+else
+  if goldrush:checkLodeConfig(matches[3],matches[2]) then
+    selectCurrentLine()
+    fg('black')
+    bg('green')
+    resetFormat()
+    goldrush:msg('Found a lode for you!')
+    goldrush:pause(true)
+  else
+    goldrush:completeProspecting()
+  end
+end</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^You determine that there is an? (.+) lode of (.+) here\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_lode_partial</name>
+				<script>goldrush.currentlode = {
+	roomid=gmcp.Room.Info.num,
+	stronghold=goldrush.currentrun.strongholdlookup[gmcp.Room.Info.num],
+	owner='None',
+	commodity=matches[3],
+	minesize='None',
+	lodesize=matches[2],
+	progress=matches[4]
+}
+goldrush:completeProspecting()</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^You determine that there is an? (tiny|small|medium|large|huge|massive) lode of (.+) here\. Approximately (\d+)\% has been mined\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_lode_none</name>
+				<script>goldrush:completeProspecting()</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>You are enough of a prospector to realise there is no lode here and no point looking for one.</string>
+					<string>There's no lode to be found here. Try prospecting within six rooms of a Mining Camp for a better chance at finding one.</string>
+					<string>This isn't an environment that can be prospected. Only Desert, Hills, Mountains, Polar, Tundra, and Valley environment types are suitable.</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>3</integer>
+					<integer>3</integer>
+					<integer>3</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_stronghold</name>
+				<script>local id = 0
+for k, v in pairs(gmcp.Char.Items.List.items) do
+	if v.name == 'a small wooden sign' then
+		id = v.id
+	end
+end
+send('read '..id)</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>There are no lodes to be found within the mining camp proper.</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>3</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_stronghold_sign</name>
+				<script>goldrush:saveStronghold(matches[2])</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>0</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>^This stronghold is controlled by (\w+)\.$</string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>1</integer>
+				</regexCodePropertyList>
+			</Trigger>
+			<TriggerGroup isActive="no" isFolder="yes" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+				<name>goldrush_legion_capture</name>
+				<script>goldrush:legionReset()</script>
+				<triggerType>0</triggerType>
+				<conditonLineDelta>0</conditonLineDelta>
+				<mStayOpen>999</mStayOpen>
+				<mCommand></mCommand>
+				<packageName></packageName>
+				<mFgColor>#ff0000</mFgColor>
+				<mBgColor>#ffff00</mBgColor>
+				<mSoundFile></mSoundFile>
+				<colorTriggerFgColor>#000000</colorTriggerFgColor>
+				<colorTriggerBgColor>#000000</colorTriggerBgColor>
+				<regexCodeList>
+					<string>ID         Type       Name                 Level Strength   Status     Specialisation </string>
+				</regexCodeList>
+				<regexCodePropertyList>
+					<integer>3</integer>
+				</regexCodePropertyList>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>goldrush_legion_line</name>
+					<script>goldrush:legionAppend(matches[2],matches[3])</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>^(\d+)\s+(\w+).+\d+\s+\d+\s+(none|sealteam6)</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>goldrush_legion_more</name>
+					<script>send('more')</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>[Type MORE if you wish to continue reading</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>2</integer>
+					</regexCodePropertyList>
+				</Trigger>
+				<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+					<name>goldrush_legion_end</name>
+					<script>goldrush:legionCaptureEnd()</script>
+					<triggerType>0</triggerType>
+					<conditonLineDelta>0</conditonLineDelta>
+					<mStayOpen>0</mStayOpen>
+					<mCommand></mCommand>
+					<packageName></packageName>
+					<mFgColor>#ff0000</mFgColor>
+					<mBgColor>#ffff00</mBgColor>
+					<mSoundFile></mSoundFile>
+					<colorTriggerFgColor>#000000</colorTriggerFgColor>
+					<colorTriggerBgColor>#000000</colorTriggerBgColor>
+					<regexCodeList>
+						<string>Your Legion numbers \d+ strong</string>
+					</regexCodeList>
+					<regexCodePropertyList>
+						<integer>1</integer>
+					</regexCodePropertyList>
+				</Trigger>
+			</TriggerGroup>
+		</TriggerGroup>
+	</TriggerPackage>
+	<TimerPackage />
+	<AliasPackage>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Goldrush</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_options</name>
+				<script>goldrush:msg("What do you want to do?")
+echo('\n   GOLDRUSH SEARCH   -Search our valid lodes')
+echo('\n   GOLDRUSH START    -Begin prospecting run')
+echo('\n   GOLDRUSH SPEED    -Start new run never automatically stopping.')
+echo('\n   GOLDRUSH SKIP     -Skip over a lode if we stop automatically')
+echo('\n   GOLDRUSH PAUSE    -Pause current prospecting run')
+echo('\n   GOLDRUSH RESUME   -Resume a paused run')
+echo('\n   GOLDRUSH REPORT   -Generate lode report')
+echo('\n   GOLDRUSH WRITELOG -Notes open lodes to CFMG clan log')
+echo('\n   GOLDRUSH CLEAR    -Clears out current report')
+echo('\n   GOLDRUSH DEPOSIT  -Deposits commodities in hands to warehouse')
+echo('\n   GOLDRUSH CONFIG   -Config options (which lodes to automatically stop at)')
+echo('\n')
+echo('\n   MINEWALK          -Automatically walk to the front or back of a mine')
+echo('\n   DEPLOYMINERS      -Automatically deploy full mining force')
+echo('\n   DEPLOYARMY        -Automatically deploy full army force')</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^goldrush$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_search</name>
+				<script>goldrush:updatePotentialLodes()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush search$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_start</name>
+				<script>goldrush:generateProspectingRun(false)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush start$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_speed</name>
+				<script>goldrush:generateProspectingRun(true)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush speed$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_pause</name>
+				<script>goldrush:pause(true)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush pause$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_resume</name>
+				<script>goldrush:pause(false)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush resume$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_report</name>
+				<script>goldrush:reportLodes()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush report$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_writelog</name>
+				<script>goldrush:writeLog()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush writelog$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_deposit</name>
+				<script>goldrush.warehousedeposit = true
+
+tempTimer(1, function()
+  sendGMCP('Char.Items.Inv')
+  send(' ')
+end)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush deposit$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_minewalk</name>
+				<script>goldrush:minewalkStart()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^minewalk$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_deployminers</name>
+				<script>goldrush.legionaction='miners'
+goldrush:legionCaptureStart()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^deployminers$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_deployarmy</name>
+				<script>goldrush.legionaction='army'
+goldrush:legionCaptureStart()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^deployarmy$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_clear</name>
+				<script>goldrush:clearData()
+goldrush:msg('Lode report cleared!')</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)goldrush clear$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_config</name>
+				<script>goldrush:showLodeConfig()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush config$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>goldrush_skip</name>
+				<script>goldrush:skip()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>(?i)^goldrush skip$</regex>
+			</Alias>
+		</AliasGroup>
+	</AliasPackage>
+	<ActionPackage />
+	<ScriptPackage>
+		<ScriptGroup isActive="yes" isFolder="yes">
+			<name>Goldrush</name>
+			<packageName></packageName>
+			<script>goldrush = goldrush or {config={}}</script>
+			<eventHandlerList />
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_config</name>
+				<packageName></packageName>
+				<script>goldrush.lodecolor = {
+  ['carbon']=128,
+  ['impure ice']=11393254,
+  ['coal']=2263842,
+  ['iron ore']=10170140,
+  ['gold ore']=16766720,
+  ['raw stone']=9849600,
+  ['silver ore']=12632256,
+  ['platinum ore']=16761035,
+  ['raw bone']=16777214,
+  ['raw gems']=8388736,
+  ['raw obsidian']=0
+}
+
+goldrush.lodesizes = {
+  ['tiny'] = 1,
+  ['small'] = 2,
+  ['medium'] = 3,
+  ['large'] = 4,
+  ['huge'] = 5,
+  ['massive'] = 6
+}
+
+function goldrush:msg(message)
+	cecho("\n&lt;gold&gt;[GOLDRUSH]&lt;reset&gt;: "..message.."&lt;reset&gt;")
+end --function
+
+function goldrush:saveConfig()
+	local path = getMudletHomeDir() .. "/goldrush_config.txt"
+	table.save(path, self.config)
+	self:msg('Configuration Saved!')
+end --function
+
+function goldrush:loadConfig()
+	local path = getMudletHomeDir() .. "/goldrush_config.txt"
+	if io.exists(path) then
+		table.load(path, self.config)
+		self:msg('Configuration Loaded!')
+    if not self.config.lodecheck then self:buildLodeConfig() end
+	end
+end --function
+
+registerAnonymousEventHandler("sysLoadEvent","goldrush:loadConfig")
+registerAnonymousEventHandler("sysExitEvent","goldrush:saveConfig")
+
+function goldrush:buildLodeConfig()
+  self.config.lodecheck = {}
+  for c,_ in pairs(self.lodecolor) do
+    self.config.lodecheck[c] = {false,true,true,true,true,true}
+  end
+  display(self.config.lodecheck)
+end
+
+function goldrush:showLodeConfig()
+  echo('\n')
+  if not self.config.lodecheck then self:buildLodeConfig() end
+  self:msg("We will only stop at the lodes you specify below! (Click to change)")
+  echo('\n   Commodity  T    S    M    L    XL   XXL')
+  for k, v in pairs(self.config.lodecheck) do 
+    echo('\n'..string.rep(' ',12-#k)..k)
+    for i,j in pairs(v) do
+      if j then
+        cechoLink('&lt;green&gt;  Y  ',[[goldrush:toggleLodeConfig(']]..k..[[',]]..i..[[,false)]],'Currently stopping at '..k..' lodes',true)
+      else
+        cechoLink('&lt;red&gt;  N  ',[[goldrush:toggleLodeConfig(']]..k..[[',]]..i..[[,true)]],'Currently skipping over '..k..' lodes',true)
+      end
+    end
+  end
+end
+
+function goldrush:toggleLodeConfig(c,s,v)
+  self.config.lodecheck[c][s] = v
+  self:showLodeConfig()
+end
+
+function goldrush:checkLodeConfig(c,s)
+  s = self.lodesizes[s]
+  return self.config.lodecheck[c][s]
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_prospecting</name>
+				<packageName></packageName>
+				<script>goldrush.config.stronghold_list = {9097,9146,2014,3796,1106,2982,1431,1721,315,10295,10409,11254,20259}
+goldrush.config.invalid_rooms = {4314}
+goldrush.config.lode_environments = {'e9','e14','e13','e6','e16','e27'}
+goldrush.config.lode_areas = {'a1','a25','a78','a85','a104','a136','a139','a148','a149','a151','a155','a175','a178','a185','a186','a199','a385'}
+
+function goldrush:pause(p)
+  if p then 
+    self.prospecting = false 
+  else
+    self.prospecting = true
+    send('prospect')
+  end
+end
+
+function goldrush:skip()
+  self.prospecting = true
+  self.skip = true
+  send('prospect')
+end
+
+function goldrush:updatePotentialLodes()
+	self:msg('Getting all potential lodes, mudlet may be unresponsive...')
+	tempTimer(1,[[goldrush:getPotentialLodes()]])
+end
+
+function goldrush:getPotentialLodes()
+  self.config.potential_lodes = {}
+  local c = self.config
+  local getPath = getPath
+	for _, s in pairs(goldrush.config.stronghold_list) do
+		--loop through strongholds, finding valid lodes
+    for id, name in pairs(getRooms()) do
+			local thisenv = 'e'..tostring(getRoomEnv(id))
+			local thisarea = 'a'..tostring(getRoomArea(id))
+    	if table.contains(c.lode_environments,thisenv) and table.contains(c.lode_areas,thisarea) and not table.contains(c.invalid_rooms,id) then
+				--valid environment and not in invalid rooms, check distance
+      	local p,d = getPath(id, s)
+      	if p and d &lt;= 6 then
+            local t = 'mainland'
+            if getRoomArea(id) == 199 then t = 'tundra' end
+            if getRoomArea(id) == 385 then t = 'fissure' end
+      			table.insert(self.config.potential_lodes,{lode=id,stronghold=s,environment=getRoomEnv(id),distance=#speedWalkDir,area=getRoomArea(id),type=t})	
+      	end --if
+    	end --if
+    end --for
+	end --for
+	self:msg(table.size(self.config.potential_lodes)..' potential lodes gathered!')
+end --function
+
+
+function goldrush:clearData()
+	self.data = {
+  	date = gmcp.IRE.Time.List,
+  	strongholds = {},
+		lodes = {},
+	}
+end
+
+function goldrush:generateProspectingRun(speed)
+  
+  self.speed = speed 
+  
+  if not self.data then self:clearData() end
+  
+  if table.size(self.config.potential_lodes) == 0 then
+		self:msg('Potential lodes not defined please run GOLDRUSH SEARCH!')
+	end
+  
+  self.currentrun = {
+    lodestocheck = {},
+    strongholdlookup = {}
+  }
+  local runtype = 'mainland'
+  if getRoomArea(mmp.currentroom) == 199 then runtype = 'tundra' end
+  if getRoomArea(mmp.currentroom) == 385 then runtype = 'fissure' end
+  
+  for k,v in pairs(self.config.potential_lodes) do
+    self.currentrun.strongholdlookup[v.lode] = v.stronghold
+    if v.type == runtype then
+      self.currentrun.lodestocheck[v.lode] = v.lode
+    end --if
+  end --for
+  self.prospecting = true
+  self:pushStart(runtype)
+	self:gotoClosestLode()
+end
+
+function goldrush:gotoClosestLode()
+  local roomlist = {}
+  for k,_ in pairs(self.currentrun.lodestocheck) do
+    roomlist[#roomlist+1] = k
+  end
+  local r, _, _ = mmp.getShortestOfMultipleRooms(roomlist)
+  mmp.gotoRoom(r)
+end --function
+
+function goldrush:startProspecting()
+	if self.prospecting then
+  	self.currentlode = {}
+    if svo then
+  	  tempTimer(.5,[[svo.doadd('prospect')]])
+    else
+      tempTimer(.5,[[send('queue addclear eqbal prospect')]])
+    end
+	end
+end --function
+
+function goldrush:saveStronghold(owner)
+	self.data.strongholds[gmcp.Room.Info.num] = owner
+	self:completeProspecting()
+end --function
+
+function goldrush:completeProspecting()
+	--save current lode if there is data
+	if table.size(self.currentlode) &gt; 0 then
+		self.data.lodes[goldrush.currentlode.roomid] = self.currentlode
+    if self.currentlode.owner == 'None' then
+      self:pushLode(self.currentlode.roomid,self.currentlode.commodity,self.currentlode.lodesize)
+    end
+	end
+	
+	--remove room from lode list
+  self.currentrun.lodestocheck[gmcp.Room.Info.num] = nil
+	
+	self:msg('Prospecting: '..tostring(table.size(self.currentrun.lodestocheck))..' rooms remaining!')
+	
+	if table.size(self.currentrun.lodestocheck) &gt; 0 and self.prospecting then
+		--keep prospecting
+		self:gotoClosestLode()
+	else
+  	--all done
+  	goldrush.prospecting = false
+    goldrush:pushEnd()
+    self:msg('Prospecting completed!')
+	end
+end --function
+
+function goldrush:getShortAreaName(id)
+  local areaname = getRoomAreaName(getRoomArea(id))
+  local comma_idx = string.find(areaname,'%,') or 100
+  local paren_idx = string.find(areaname,'%(') or 100
+  local min_idx = math.min(comma_idx,paren_idx) - 1
+  return string.trim(string.sub(areaname,1,min_idx))
+end --function
+
+registerAnonymousEventHandler("mmapper arrived", "goldrush:startProspecting")</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_reporting</name>
+				<packageName></packageName>
+				<script>  --function to create area short name 
+function goldrush:getShortAreaName(id)
+  local areaname = getRoomAreaName(getRoomArea(id))
+  local comma_idx = string.find(areaname,'%,') or 100
+  local paren_idx = string.find(areaname,'%(') or 100
+  local min_idx = math.min(comma_idx,paren_idx) - 1
+  return string.trim(string.sub(areaname,1,min_idx))
+end --function
+
+function goldrush:reportLodes()
+
+  if table.size(self.data.lodes) == 0 then
+    self:msg('No lodes to report, try prospecting first!')
+    return
+  end
+  
+  local path = getMudletHomeDir()..'/mininglodes.txt' --set file location
+  local file = io.open(path,'w') --open file for write
+  local d = self.data.date --get survey date
+  
+  --function to log and echo
+  local function echolog(line,command,tip)
+    if command then
+      echoLink(line, command, tip, true)
+    else
+      echo(line)
+    end
+    file:write(line)
+  end --function
+  
+  echolog('\n')
+  echolog('Survey Date: '..d.day..' '..d.month..' '..d.year)
+
+  for sk, sv in pairs(self.data.strongholds) do
+  	echolog('\n\nStronghold '..sk)
+  	echolog(' in '..self:getShortAreaName(sk))
+  	echolog(' - '..sv)
+  	echolog('\n----------------------------------------------------------')
+  	echolog('\n     Id  Miner       Lode     Type      Mine     %  Room')
+  	
+    for k, v in pairs(self.data.lodes) do
+  	
+  		if sk == v.stronghold then
+      	local areaname = self:getShortAreaName(v.roomid)
+        local roomname = getRoomName(v.roomid)
+  			v.commodity = v.commodity:gsub('raw ','')
+    		v.commodity = v.commodity:gsub(' ore','')
+    		v.commodity = v.commodity:gsub('impure ','')
+  
+  			echolog('\n')
+      	if v.owner == 'None' then
+  				fg('black')
+  				if v.lodesize == 'small' and (v.commodity == 'iron' or v.commodity == 'coal') then
+      			bg('yellow')
+  					echolog('*')
+  				else
+  					bg('green')
+  					echolog('*')
+  				end
+      	else
+      		resetFormat()
+  				echolog(' ')
+      	end
+  
+      	echolog(string.rep(" ",6-#tostring(v.roomid)))
+        echolog(v.roomid,[[mmp.gotoRoom(]]..v.roomid..[[)]],'GOTO MINE '..v.roomid)
+    		
+    		local owner_cutoff = math.min(10,#tostring(v.owner))
+    		local owner_name = v.owner:sub(1,owner_cutoff)
+    		local space = 11-owner_cutoff
+    		echolog('  '..owner_name)
+    		echolog(string.rep(".",space))
+    		
+    		local space = 8-#tostring(v.lodesize)
+    		echolog(' '..v.lodesize)
+    		echolog(string.rep(" ",space))
+    		
+    		local space = 9-#tostring(v.commodity)
+    		echolog(' '..v.commodity)
+    		echolog(string.rep(" ",space))
+    		
+    		local space = 7-#tostring(v.minesize)
+    		echolog(' '..v.minesize)
+    		echolog(string.rep(" ",space))
+    		
+    		echolog(string.rep(" ",3-#tostring(v.progress))..v.progress)
+    		echolog('  '..roomname:sub(1,20))
+    		resetFormat()
+    	end
+  	end
+  	
+  end
+  
+  file:close()
+  echo('\n')
+  self:msg('Report copied to clipboard.')
+  send('clan switch cfmg')
+  io.popen('clip &lt; "'..path..'"')
+  
+end
+
+function goldrush:writeLog()
+
+  for k, v in pairs(self.data.lodes) do
+    if v.owner == 'None' then
+      local areaname = self:getShortAreaName(v.roomid)
+      local roomname = getRoomName(v.roomid)
+    	v.commodity = v.commodity:gsub('raw ','')
+      v.commodity = v.commodity:gsub(' ore','')
+      v.commodity = v.commodity:gsub('impure ','')
+    
+      send('WRITELOG CFMG '..v.lodesize:title()..' '..v.commodity:lower()..' AT '..roomname..' ('..v.roomid..') IN '..areaname)
+    end
+  
+  end
+
+
+end</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_legion</name>
+				<packageName></packageName>
+				<script>--misc functions for working within a mine
+
+function goldrush:minewalkStart()
+  local dirs = {}
+  for k,v in pairs(gmcp.Room.Info.exits) do
+    self.lastdir = k
+  end
+  self.minewalking = true
+  send(self.lastdir)
+end
+
+function goldrush:minewalkArrived()
+  if self.minewalking then
+    tempTimer(.8,[[goldrush:minewalkContinue()]])
+  end
+end
+
+function goldrush:minewalkContinue()
+  local revdir = self:reverseDirection(self.lastdir)
+  if table.size(gmcp.Room.Info.exits) &gt; 1 then
+    for k,v in pairs(gmcp.Room.Info.exits) do
+      if k ~= revdir then
+        self.lastdir = k
+      end
+    end
+    send(self.lastdir)
+  else
+    self:msg('Arrived!')
+    self.minewalking = false
+  end
+end
+
+function goldrush:reverseDirection(dir)
+
+  dir = dir:lower()
+  local dirmap = {
+    ['n']='s',
+    ['e']='w',
+    ['s']='n',
+    ['w']='e',
+    ['ne']='sw',
+    ['nw']='se',
+    ['se']='nw',
+    ['sw']='ne',
+  }
+  
+  return dirmap[dir] 
+end
+
+registerAnonymousEventHandler('gmcp.Room.Info','goldrush:minewalkArrived')
+
+
+
+function goldrush:legionCaptureStart()
+  enableTrigger('goldrush_legion_capture')
+  send('legion list',false)
+end
+
+function goldrush:legionCaptureEnd()
+  setTriggerStayOpen('goldrush_legion_capture',0)
+  disableTrigger('goldrush_legion_capture')
+  
+  if self.legionaction == 'miners' then self:deployMiners() end
+  if self.legionaction == 'army' then self:deployArmy() end
+end
+
+function goldrush:legionReset()
+  self.legion = {army={},miners={}}
+end
+
+function goldrush:legionAppend(lid,ldesc)
+  if ldesc == 'miners' then
+    table.insert(self.legion.miners,lid)
+  else
+    if not self.legion.army[ldesc] then self.legion.army[ldesc] = {} end
+    table.insert(self.legion.army[ldesc],lid)
+  end
+end
+
+function goldrush:deployMiners()
+  for k,v in pairs(self.legion.miners) do
+    send('legion deploy squad '..v)
+  end
+end
+
+function goldrush:deployArmy()
+  for i=1,5,1 do
+    for k,v in pairs(self.legion.army) do
+      if v[1] then
+        send('legion deploy squad '..v[1])
+        table.remove(self.legion.army[k],1)
+      end
+    end
+  end
+end
+</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_warehouse_deposit</name>
+				<packageName></packageName>
+				<script>function goldrush:findCleanComm(c)
+  rawtypes = {'ore','raw','impure'}
+  comms = {
+    ['bone'] = 'rawbone',
+    ['carbon'] = 'carbon',
+    ['cloth'] = 'cloth',
+    ['coal'] = 'coal',
+    ['dust'] = 'dust',
+    ['fibre'] = 'fibre',
+    ['gems'] = 'rawgems',
+    ['gold'] = 'goldore',
+    ['horn'] = 'horn',
+    ['ice'] = 'impureice',
+    ['iron'] = 'ironore',
+    ['lacquer'] = 'lacquer',
+    ['leather'] = 'leather',
+    ['obsidian'] = 'rawobsidian',
+    ['platinum'] = 'platinumore',
+    ['rope'] = 'rope',
+    ['silver'] = 'silverore',
+    ['steel'] = 'steel',
+    ['stone'] = 'rawstone',
+    ['wood'] = 'wood',
+  }
+  
+  local rtype
+  for k,v in pairs(rawtypes) do
+    rtype = c:find(v)
+    if rtype then break end
+  end
+  
+  for k,v in pairs(comms) do
+    if c:find(k) then
+      if rtype then
+        return v 
+      else
+        return k 
+      end  
+    end
+  end
+  
+  return 'unknown'
+  
+end
+
+
+function goldrush:depositAll()
+
+  if not self.warehousedeposit then return end
+  
+  local t = gmcp.Char.Items.List
+  
+  for k,v in pairs(t.items) do
+    if v.icon == 'commodity' then
+    
+      local c = self:findCleanComm(v.name)
+      local g = v.name:match('a group of (%d+)')
+      if not g then g = 1 end
+      
+      send('WAREHOUSE DEPOSIT '..g..' '..c)
+    end
+  end
+  
+  self.warehousedeposit = false
+  
+end
+
+registerAnonymousEventHandler('gmcp.Char.Items.List','goldrush:depositAll')</script>
+				<eventHandlerList />
+			</Script>
+			<Script isActive="yes" isFolder="no">
+				<name>goldrush_push</name>
+				<packageName></packageName>
+				<script>goldrush.header = {['Content-type']='application/json'}
+goldrush.hook = 'https://discord.com/api/webhooks/840343065603997747/lULCTKj3zTRybhtB8oxEfPiXGBXznkokomB9jwAe-rDzwi8akLlS977ebeMSL2k393Tm'
+goldrush.hook = 'https://discord.com/api/webhooks/840373405123215441/1pcxhwWO85VxBI69pUOsBOoyR9fy8ZTMxquJTvNrUQy4F7Y60zWTPC1tXf-8e2_c_OBq'
+goldrush.submit = false
+
+function goldrush:pushLode(id,commodity,size)
+  local room = getRoomName(id)
+  local area = self:getShortAreaName(id)
+  local c = {
+	    ['embeds'] = {{
+      title = string.format('Lode Found - %s',area),
+      color = self.lodecolor[commodity:lower()] or 0,
+      fields = {
+        {name='Commodity',value=commodity:upper()},
+        {name='Size',value=size:upper()},
+        {name='Room',value=string.format('%s (%s)',room,id)},
+        {name='Discoverer',value=gmcp.Char.Status.name}
+      }
+		}}
+	}
+  c = yajl.to_string(c)
+  if self.submit then postHTTP(c,self.hook,self.header) end
+end
+
+function goldrush:pushStart(area)
+  local c = {
+      ['content'] = string.format("`%s has started a new prospecting run on %s!`",gmcp.Char.Status.name:upper(),area:upper())
+  }
+  c = yajl.to_string(c)
+  if self.submit then postHTTP(c,self.hook,self.header) end
+end
+
+function goldrush:pushEnd()
+  local c = {
+      ['content'] = string.format("`%s has completed a prospecting run.`",gmcp.Char.Status.name:upper())
+  }
+  c = yajl.to_string(c)
+  if self.submit then postHTTP(c,self.hook,self.header) end
+end</script>
+				<eventHandlerList />
+			</Script>
+		</ScriptGroup>
+	</ScriptPackage>
+	<KeyPackage />
+	<VariablePackage>
+		<HiddenVariables />
+	</VariablePackage>
+</MudletPackage>

@@ -523,7 +523,11 @@ end
 
 function goldrush:checkLodeConfig(c,s)
   s = self.lodesizes[s]
-  return self.config.lodecheck[c][s]
+  if self.config.lodecheck then					
+  	return self.config.lodecheck[c][s]
+  else
+	return false
+  end
 end</script>
 				<eventHandlerList />
 			</Script>

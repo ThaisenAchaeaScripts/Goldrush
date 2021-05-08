@@ -8,7 +8,7 @@ Achaea Prospecting script for Mudlet
 1. Download this repository as a ZIP by clicking the "Clone or download" button above
 2. Unpack the ZIP somewhere...anywhere!
 3. Open the mudlet packackage manager
-4. Navigate to and install the "achaea-calendar.xml" script...wherever you put it...
+4. Navigate to and install the "Goldrush.xml" script...wherever you put it...
 
 ### Automagic Installation
 1. If you have a previous version installed, uninstall first via the package manager.
